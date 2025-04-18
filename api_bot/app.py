@@ -111,7 +111,7 @@ def add_google_calendar():
             print(extracted_text)
             entities_json = json.loads(extracted_text)
             respuesta = create_calendar_event(entities_json)
-            entities_json = {"respuesta":respuesta}
+            entities_json = {"respuesta:":"respuesta: {}  texto: {}".format(respuesta,extracted_text)}
             
         except json.JSONDecodeError:
             entities_json = {"respuesta": "No se pudo decodificar la respuesta como JSON."}
