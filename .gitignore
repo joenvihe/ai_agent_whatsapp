@@ -1,3 +1,7 @@
 credentials.json
 token.json
 ejecutar.txt
+api_agent_calendar/token.json
+api_agent_calendar/*.json
+.env
+test_agenda_adk/.env
