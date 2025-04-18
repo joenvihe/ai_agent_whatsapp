@@ -3,6 +3,54 @@ import os
 import openai
 from datetime import datetime
 import json
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from googleapiclient.discovery import build
+import os.path
+
+# Autenticación con Google
+SCOPES = ['https://www.googleapis.com/auth/calendar']
+
+def authenticate_google():
+    creds = None
+    if os.path.exists('token.json'):
+        try:
+            creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+        except Exception as e:
+            print(e)
+    return creds
+
+def create_calendar_event(evento):
+    service = build('calendar', 'v3', credentials=authenticate_google())
+
+    # Datos del evento
+    event = {
+        'summary': evento["titulo"],  # Título
+        'location': evento["lugar"],  # Ubicación
+        'description': evento["descripcion"],  # Descripción
+        'start': {
+            'dateTime': evento["fecha_inicio"],  # Fecha y hora de inicio
+            'timeZone': 'America/Lima',  # Zona horaria
+        },
+        'end': {
+            'dateTime': evento["fecha_fin"],  # Fecha y hora de fin
+            'timeZone': 'America/Lima',
+        },
+        'reminders': {
+            'useDefault': False,
+            'overrides': [
+                {'method': 'email', 'minutes': 24 * 60},  # Recordatorio por correo electrónico
+                {'method': 'popup', 'minutes': 10},  # Recordatorio emergente
+            ],
+        },
+    }
+
+    # Inserta el evento en el calendario
+    event_result = service.events().insert(calendarId='primary', body=event).execute()
+    return 'Evento creado:{}'.format(event_result['htmlLink'])
+
+
 
 # Inicializar la aplicación Flask
 app = Flask(__name__)
@@ -62,10 +110,13 @@ def add_google_calendar():
         try:
             print(extracted_text)
             entities_json = json.loads(extracted_text)
+            respuesta = create_calendar_event(entities_json)
+            entities_json = {"respuesta":respuesta}
+            
         except json.JSONDecodeError:
-            entities_json = {"error": "No se pudo decodificar la respuesta como JSON."}
+            entities_json = {"respuesta": "No se pudo decodificar la respuesta como JSON."}
                 
-        return jsonify({"answer": entities_json})
+        return jsonify({"answer": entities_json["respuesta"]})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
