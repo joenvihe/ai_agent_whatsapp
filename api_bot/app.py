@@ -65,7 +65,7 @@ def add_google_calendar():
         except json.JSONDecodeError:
             entities_json = {"error": "No se pudo decodificar la respuesta como JSON."}
                 
-        return jsonify({"answer": entities_json.strip()})
+        return jsonify({"answer": entities_json})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -96,7 +96,7 @@ def ask_openai():
         # return jsonify({"answer": response.choices[0].text.strip()})
         #answer = response['choices'][0]['message']['content']
         answer = response.choices[0].message.content
-        return jsonify({"answer": answer})
+        return jsonify({"answer": answer.strip()})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
