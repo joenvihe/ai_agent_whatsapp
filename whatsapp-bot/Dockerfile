@@ -5,7 +5,7 @@ FROM node:23
 WORKDIR /app
 
 # Copiar los archivos del proyecto al contenedor
-COPY package.json package-lock.json ./
+COPY package.json ./
 COPY . .
 
 # Instalar las dependencias necesarias
