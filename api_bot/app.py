@@ -58,6 +58,7 @@ app = Flask(__name__)
 @app.route('/cal', methods=['POST'])
 def add_google_calendar():
     extracted_text = ""
+    etapa = ""
     try:
         # Llamar al modelo para procesar el prompt y extraer entidades
         openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -104,23 +105,29 @@ def add_google_calendar():
                     """}
             ]
         )
+        etapa = "1"
 
         # Obtener el contenido de la respuesta del modelo
         extracted_text = response.choices[0].message.content.strip()
         
         # Convertir la salida en formato JSON
         try:
+            etapa = "2"
             print(extracted_text)
             entities_json = json.loads(extracted_text)
+            etapa = "3"
             respuesta = create_calendar_event(entities_json)
+            etapa = "4"
             entities_json = {"respuesta:":"exito: {}  texto: {}".format(respuesta,extracted_text)}
+            etapa = "5"
             
         except json.JSONDecodeError:
+            etapa = "6"
             entities_json = {"respuesta": "No se pudo decodificar la respuesta como JSON. {}".format(respuesta,extracted_text)}
                 
         return jsonify({"answer": entities_json["respuesta"]})
     except Exception as e:
-        return jsonify({"answer": "error_cambio :{}  texto:{} ".format(str(e),extracted_text)}), 500
+        return jsonify({"answer": "error_cambio :{}  texto:{} etapa:{}".format(str(e),extracted_text,etapa)}), 500
 
 
 @app.route('/ask', methods=['POST'])
