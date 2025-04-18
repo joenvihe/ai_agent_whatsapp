@@ -113,14 +113,14 @@ def add_google_calendar():
             print(extracted_text)
             entities_json = json.loads(extracted_text)
             respuesta = create_calendar_event(entities_json)
-            entities_json = {"respuesta:":"respuesta: {}  texto: {}".format(respuesta,extracted_text)}
+            entities_json = {"respuesta:":"exito: {}  texto: {}".format(respuesta,extracted_text)}
             
         except json.JSONDecodeError:
             entities_json = {"respuesta": "No se pudo decodificar la respuesta como JSON. {}".format(respuesta,extracted_text)}
                 
         return jsonify({"answer": entities_json["respuesta"]})
     except Exception as e:
-        return jsonify({"error": "error :{}  texto:{} ".format(str(e),extracted_text)}), 500
+        return jsonify({"error": "error_cambio :{}  texto:{} ".format(str(e),extracted_text)}), 500
 
 
 @app.route('/ask', methods=['POST'])
