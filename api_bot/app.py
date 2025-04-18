@@ -96,7 +96,7 @@ def ask_openai():
         # return jsonify({"answer": response.choices[0].text.strip()})
         #answer = response['choices'][0]['message']['content']
         answer = response.choices[0].message.content
-        return jsonify({"answer": answer.strip()})
+        return jsonify({"answer": answer})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
