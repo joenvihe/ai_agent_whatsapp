@@ -120,7 +120,7 @@ def add_google_calendar():
                 
         return jsonify({"answer": entities_json["respuesta"]})
     except Exception as e:
-        return jsonify({"error": "error_cambio :{}  texto:{} ".format(str(e),extracted_text)}), 500
+        return jsonify({"answer": "error_cambio :{}  texto:{} ".format(str(e),extracted_text)}), 500
 
 
 @app.route('/ask', methods=['POST'])
