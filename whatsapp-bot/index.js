@@ -72,6 +72,32 @@ client.on('message_create', async (message) => {
         }
     }
 
+    // Si quieres que el bot pase el mensaje al API
+    if (message.body.startsWith('!cal ')) {
+        const question = message.body.replace('!cal ', '');
+
+        try {
+            // Llamar al API del contenedor "my-openai-api"
+            const response = await fetch('http://my-openai-api:5000/cal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: question })
+            });
+
+            if (!response.ok) throw new Error(`Error en la API: ${response.statusText}`);
+
+            const data = await response.json();
+            const answer = data.answer || 'Lo siento, no pude procesar la solicitud.';
+
+            // Responder en WhatsApp
+            await message.reply(answer);
+        } catch (error) {
+            console.error('Error al llamar a la API:', error);
+            await message.reply('Hubo un error al procesar tu solicitud.');
+        }
+    }
+
+
     // Responder a un comando simple
     if (message.body === '!ping') {
         message.reply('pong');
