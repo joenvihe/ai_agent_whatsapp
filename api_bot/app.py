@@ -87,7 +87,8 @@ def add_google_calendar():
                     Nota: 
                         - El resultado debe estar formateado como un único JSON válido.
                         - Si no encuentras la fecha de inicio asume la fecha actual de hoy.
-                        - Si no se menciona una ubicación o fecha de fin, el valor en el JSON debe ser null.
+                        - Si no encuentras la fecha de fin asume la fecha actual de hoy.
+                        - Si no se menciona una ubicación, el valor en el JSON debe ser null.
                         - Asegúrate de ser preciso en la interpretación del texto.
 
                     Ejemplo de entrada:
@@ -98,7 +99,7 @@ def add_google_calendar():
                             'descripcion": 'Cita programada en el colegio de Amelie para el martes 30 de marzo del 2025 a las 9:00 am.',
                             'lugar': 'colegio de Amelie',
                             'fecha_inicio': '2025-03-30T09:00:00',
-                            'fecha_fin': null
+                            'fecha_fin': '2025-03-30T09:00:00'
                         
                     """}
             ]
