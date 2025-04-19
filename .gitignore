@@ -3,5 +3,17 @@ token.json
 ejecutar.txt
 api_agent_calendar/token.json
 api_agent_calendar/*.json
+asistente_agenda/token.json
+asistente_agenda/*.json
+asistente_utils/token.json
+asistente_utils/*.json
+asistente_utils/__pycache__
+asistente_utils/__pycache__/*
+asistente_agenda/__pycache__
+asistente_agenda/__pycache__/*
 .env
+asistente_listar_eventos/.env
+asistente_listar_eventos/__pycache__
+asistente_listar_eventos/__pycache__/*
 test_agenda_adk/.env
+asistente_agenda/.env
